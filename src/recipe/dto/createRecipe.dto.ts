@@ -1,6 +1,8 @@
 import { IsIn } from 'class-validator';
 
 export enum cuisineEnum {
+  japanese = 'japanese',
+  french = 'french',
   asian = 'asian',
   mexican = 'mexican',
   american = 'american',

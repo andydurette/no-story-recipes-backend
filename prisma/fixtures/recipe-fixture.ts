@@ -146,4 +146,32 @@ export const recipes = [
     photoURL: 'https://i.imgur.com/ua2BAyq.jpg',
     published: true,
   },
+  {
+    id: 5,
+    displayUrl: 'double-chocolate-double-mint-cookies',
+    cuisine: 'american',
+    description:
+      'A cookie with elements of chocolate and mint to delectiably stimulate the tastebuds',
+    name: 'Double Chocolate Double Mint Cookies',
+    ingredients: [
+      '2 ½ cups butter, softened',
+      '4 cups sugar',
+      '4 eggs',
+      '1 teaspoon vanilla extract',
+      '1 teaspoon peppermint extract',
+      '4 cups all-purpose flour',
+      '1 ½ cups unsweetened cocoa powder',
+      '2 teaspoons baking soda',
+      '1 teaspoon salt',
+      '2 cups semisweet chocolate chips',
+    ],
+    directions: [
+      'Preheat the oven to 350 degrees F (175 degrees C).',
+      'Cream together, butter, sugar and eggs. Mix in remaining ingredients. Blend well.',
+      'Drop mixture using a cookie scoop or a table spoon if not available onto a baking tray. Bake for 8 or 9 minutes. Cookies will be soft.',
+      'Leave out to cool on the tray or if you have a wire rack after cooling for 1 or 2 minutes move cookies over to the wire rack.',
+    ],
+    photoURL: 'https://i.imgur.com/6FwrQ2a.png',
+    published: true,
+  },
 ] as const;

@@ -1,8 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseGuards } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { Recipe, Prisma } from '@prisma/client';
 import { recipeSelection } from './entities/recipe.selection';
 import { cuisineEnum } from './dto/createRecipe.dto';
+import { ApiKeyGuard } from 'src/guards/apiKey.guard';
+import { recipes } from '../../prisma/fixtures/recipe-fixture';
 
 @Injectable()
 export class RecipeService {
@@ -90,5 +92,10 @@ export class RecipeService {
     return this.prisma.recipe.delete({
       where,
     });
+  }
+
+  @UseGuards(ApiKeyGuard)
+  async resetRecipes() {
+    return JSON.stringify(recipes);
   }
 }
