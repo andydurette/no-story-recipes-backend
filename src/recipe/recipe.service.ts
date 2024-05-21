@@ -2,7 +2,7 @@ import { Injectable, UseGuards } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { Recipe, Prisma } from '@prisma/client';
 import { recipeSelection } from './entities/recipe.selection';
-import { cuisineEnum } from './dto/createRecipe.dto';
+import { cuisineEnum } from './dto/recipe.dto';
 import { ApiKeyGuard } from 'src/guards/apiKey.guard';
 import { recipes } from '../../prisma/fixtures/recipe-fixture';
 
@@ -49,6 +49,15 @@ export class RecipeService {
         ...(recipeQueryString
           ? { name: { contains: recipeQueryString, mode: 'insensitive' } }
           : ''),
+      },
+    });
+  }
+
+  async latestRecipes(): Promise<Recipe[]> {
+    return this.prisma.recipe.findMany({
+      take: 3,
+      orderBy: {
+        id: 'desc',
       },
     });
   }

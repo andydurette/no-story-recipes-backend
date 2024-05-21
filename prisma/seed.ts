@@ -1,10 +1,10 @@
 import 'reflect-metadata';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Recipe } from '@prisma/client';
 import { recipes } from './fixtures';
 
-const removeRecipeId = (recipe: any) => {
-  const recipeCopy = { ...recipe };
-  return recipeCopy;
+const removeRecipeId = (recipe): Recipe => {
+  delete recipe.id;
+  return recipe;
 };
 
 export async function reseed(prisma: PrismaClient) {

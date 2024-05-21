@@ -8,10 +8,10 @@ export enum cuisineEnum {
   american = 'american',
 }
 
-export class CreateRecipeDto {
-  @IsIn(Object.values(cuisineEnum))
+export class RecipeDto {
   displayUrl: string;
-  cuisine: cuisineEnum;
+  @IsIn(Object.values(cuisineEnum))
+  cuisine: string;
   description: string;
   directions: string[];
   ingredients: string[];
