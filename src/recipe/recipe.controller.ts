@@ -17,7 +17,7 @@ import { RecipeDto } from './dto/recipe.dto';
 @SerializeOptions({
   excludePrefixes: ['published'],
 })
-@Controller('recipe')
+@Controller('recipes')
 @UseInterceptors(ClassSerializerInterceptor)
 export class RecipeController {
   constructor(private readonly recipeService: RecipeService) {}
