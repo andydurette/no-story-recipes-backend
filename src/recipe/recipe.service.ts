@@ -55,7 +55,7 @@ export class RecipeService {
 
   async latestRecipes(): Promise<Recipe[]> {
     return this.prisma.recipe.findMany({
-      take: 3,
+      take: 6,
       orderBy: {
         id: 'desc',
       },
