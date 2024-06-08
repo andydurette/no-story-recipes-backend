@@ -10,7 +10,6 @@ export const recipes = [
       '6 Eggs',
       '1 Pack Peameal bacon',
       '4 English Muffin',
-      'Bread Crubs',
       '1 Cup butter',
       '2 Cups of vinegar',
     ],
