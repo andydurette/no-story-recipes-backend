@@ -9,17 +9,16 @@ const removeRecipeId = (recipe): Recipe => {
 
 export async function reseed(prisma: PrismaClient) {
   const seedRecipes = () =>
-    Promise.all(
-      recipes.map(async (recipe) =>
-        prisma.recipe.upsert({
+    recipes.map(
+      async (recipe) =>
+        await prisma.recipe.upsert({
           where: { id: recipe.id },
           update: {},
           create: { ...removeRecipeId(recipe) },
         }),
-      ),
     );
 
-  return Promise.all([seedRecipes()]);
+  seedRecipes();
 }
 
 if (require.main === module) {
