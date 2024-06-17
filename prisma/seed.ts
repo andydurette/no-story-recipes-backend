@@ -13,7 +13,7 @@ export async function reseed(prisma: PrismaClient) {
       async (recipe) =>
         await prisma.recipe.upsert({
           where: { id: recipe.id },
-          update: {},
+          update: { ...removeRecipeId(recipe) },
           create: { ...removeRecipeId(recipe) },
         }),
     );
