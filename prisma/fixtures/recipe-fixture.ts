@@ -253,7 +253,7 @@ export const recipes = [
     published: true,
   },
   {
-    id: 9,
+    id: 10,
     displayUrl: 'coca-cola-wings',
     cuisine: 'american',
     description: 'Sweet and savory Chicken wings coated with coca cola',
