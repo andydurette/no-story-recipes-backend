@@ -12,13 +12,21 @@ datasource db {
 }
 
 model Recipe {
-  id          Int      @id @unique @default(autoincrement())
-  displayUrl  String   @unique
-  cuisine     String
+  id          Int       @id @default(autoincrement())
+  displayUrl  String    @unique
+  cuisine     Cuisine[]
   description String
   directions  String[]
   name        String
   ingredients String[]
   photoURL    String
-  published   Boolean? @default(true)
+  published   Boolean?  @default(true)
+}
+
+enum Cuisine {
+  AMERICAN
+  LATIN_AMERICAN
+  EUROPEAN
+  ASIAN
+  MIDDLE_EASTERN
 }

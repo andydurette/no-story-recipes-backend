@@ -1,8 +1,10 @@
+import { Recipe } from '@prisma/client';
+
 export const recipes = [
   {
     id: 1,
     displayUrl: 'eggs-benedict',
-    cuisine: 'american',
+    cuisine: ['AMERICAN'],
     description:
       'A dish consisting of hollandiase sauce, peameal bacon, poached eggs and english muffins',
     name: 'Eggs Benedict',
@@ -31,7 +33,7 @@ export const recipes = [
   {
     id: 2,
     displayUrl: 'japanese-gratin',
-    cuisine: 'japanese',
+    cuisine: ['ASIAN'],
     description:
       'A dish consisting of a white sauce, chicken, bread crumbs and cheese crust',
     name: 'Japanese Gratin',
@@ -55,7 +57,7 @@ export const recipes = [
   {
     id: 3,
     displayUrl: 'steak-burrito',
-    cuisine: 'mexican',
+    cuisine: ['LATIN_AMERICAN'],
     description:
       'A dish consisting of a white tortilla, black bean paste and fillings',
     name: 'Steak Burrito',
@@ -80,7 +82,7 @@ export const recipes = [
   {
     id: 4,
     displayUrl: 'crunch-wrap',
-    cuisine: 'mexican',
+    cuisine: ['LATIN_AMERICAN'],
     description:
       'A dish consisting of a white tortilla, black bean paste and fillings',
     name: 'Crunch Wrap',
@@ -111,14 +113,14 @@ export const recipes = [
   {
     id: 5,
     displayUrl: 'korean-fried-chicken',
-    cuisine: 'asian',
+    cuisine: ['ASIAN'],
     description:
       'A dish consisting of chicken and a sweet, savory, spicy sauce',
     name: 'Korean Fried Chicken',
     ingredients: [
       '3 large chicken breasts',
-      '1/2 cup gochujang',
-      '1/2 cup honey',
+      '½ cup gochujang',
+      '½ cup honey',
       '4 tbsp ketchup',
       '2 tbsp rice vinegar',
       '2 tbsp soy sauce',
@@ -128,8 +130,8 @@ export const recipes = [
       '4 tbsp chili flakes',
       '2 tbsp butter',
       '1 table spoon black sesame seeds',
-      '1/2 c. cornstarch',
-      '1/2 c. flour',
+      '½ c. cornstarch',
+      '½ c. flour',
       'vegtable oil or spray oil for an air fryer',
     ],
     directions: [
@@ -149,9 +151,9 @@ export const recipes = [
   {
     id: 6,
     displayUrl: 'double-chocolate-double-mint-cookies',
-    cuisine: 'american',
+    cuisine: ['AMERICAN'],
     description:
-      'A cookie with elements of chocolate and mint to delectiably stimulate the tastebuds',
+      'A cookie with elements of chocolate and mint to delectably stimulate the tastebuds',
     name: 'Double Chocolate Double Mint Cookies',
     ingredients: [
       '2 ½ cups butter, softened',
@@ -177,9 +179,9 @@ export const recipes = [
   {
     id: 7,
     displayUrl: 'cinnamon-cookies',
-    cuisine: 'american',
+    cuisine: ['AMERICAN'],
     description:
-      'A cookie with elements of cinnamon to delectiably stimulate the tastebuds',
+      'A cookie with elements of cinnamon to delectably stimulate the tastebuds',
     name: 'Cinnamon Cookies',
     ingredients: [
       '½ cups butter, softened',
@@ -203,7 +205,7 @@ export const recipes = [
   {
     id: 8,
     displayUrl: 'carnitas',
-    cuisine: 'mexican',
+    cuisine: ['LATIN_AMERICAN'],
     description:
       'Carnitas, also known as mexican pulled pork, which is packed with flavor from the citrus fruits and spices',
     name: 'Carnitas',
@@ -232,7 +234,7 @@ export const recipes = [
   {
     id: 9,
     displayUrl: 'earl-grey-milk-tea',
-    cuisine: 'asian',
+    cuisine: ['ASIAN'],
     description: 'Milk tea made with caramel and Earl Grey tea',
     name: 'Earl Grey Milk Tea',
     ingredients: [
@@ -256,7 +258,7 @@ export const recipes = [
   {
     id: 10,
     displayUrl: 'coca-cola-wings',
-    cuisine: 'american',
+    cuisine: ['AMERICAN'],
     description: 'Sweet and savory chicken wings coated with coca cola',
     name: 'Coca-Cola Wings',
     ingredients: ['2 pounds of chicken wings', '355ml of Coca-Cola'],
@@ -271,4 +273,83 @@ export const recipes = [
     photoURL: 'https://i.imgur.com/KcmBGk1.jpg',
     published: true,
   },
-] as const;
+  {
+    id: 11,
+    displayUrl: 'tandoori-chicken-pizza-buns',
+    cuisine: ['ASIAN', 'EUROPEAN'],
+    description: 'Fusion recipe adding indian flavors to a pizza bun.',
+    name: 'Tandoori Chicken Pizza Buns',
+    ingredients: [
+      'Pizza Dough',
+      '3 chicken breasts',
+      '150g Marble Cheese ',
+      'Tandoori Sauce',
+      'Garlic Butter',
+    ],
+    directions: [
+      'Preheat oven to 350°F.',
+      'Cut up chikcen into rough 1 inch cubes or smaller and cook in a pan with tandoori sauce on medium to high heat.',
+      'Seperate pizza dough into 8 parts, then flatten down each of them.',
+      'Grate your cheese and evenly distribute it to each flattened section of dough, distribute the chicken the same way.',
+      'Pinch and curl the dough to close each bun.',
+      'Put a little olive or other cooking oil in the bottom of a rough 10 inch steel pan so the buns will not stick. Once coated load each of the buns into the pan.',
+      'Brush each bun with garlic butter.',
+      'Place pan into the over for about 30 minutes or until browned, take out and enjoy.',
+    ],
+    photoURL: 'https://i.imgur.com/DEjpn61.jpeg',
+    published: true,
+  },
+  {
+    id: 12,
+    displayUrl: 'steak-pie',
+    cuisine: ['EUROPEAN'],
+    description: 'Simple and delicious steak pie',
+    name: 'Steak Pie',
+    ingredients: [
+      '3 steaks',
+      'pie shell',
+      'puff pastry',
+      '900ml',
+      '¼ teaspoon salt',
+      '1 tablespoon pepper',
+      '3 tablespoons flour',
+    ],
+    directions: [
+      'Cut up steaks into roughly 1 inch sections.',
+      'Sear the portions of steak in a pan (DO NOT COOK THE STEAK ONLY SEAR THE OUTSIDE!) and seared sections to a slow cooker',
+      'Once searing of the steak is done deglaze the pan with mushroom stock and the mixture to the slow cooker with the rest of the stock.',
+      'Add in salt and pepper then slow cook for 2-6 hours on low, cheaper cuts of steaks will need longer to get tender.',
+      'Once slow cooking has finished preheat oven to 350°F.',
+      'Take about 50ml of broth from the slow cooker and let cool in a container',
+      'Add pie shell to oven and remove once browned, poke the bottom with a fork if it bubbles up or if you have bakers mables use them.',
+      'Roll out Puff pastry enough to cover top of pie.',
+      'Load steak from slow cooker into pie shell taking only about 1 table spoon of broth to keep moist.',
+      'Add layer of puff pastry on top of the pie and score the top with 3 lines to release steam.',
+      'While pie is cooking take the broth put aside from step 6 to cool and add the flour mixture to it and shake vigourous until full incorperated',
+      'Add flour and broth mixture back into the slow cooker at low and mix together to make a gravy to go over the pie.',
+      'Once the pie is done, pour gravy over your pie and enjoy.',
+    ],
+    photoURL: 'https://i.imgur.com/LMk6lNo.jpeg',
+    published: true,
+  },
+  {
+    id: 13,
+    displayUrl: 'cherry-ice-cream',
+    cuisine: ['AMERICAN'],
+    description: 'Sweet,robust and smooth cherry ice cream',
+    name: 'Cherry Ice Cream',
+    ingredients: ['10 cups of cherries', '¾ cup sugar', '1 ¾ cups heavy cream'],
+    directions: [
+      'Preheat oven to 450°F. Add cherries and sugar into a stainless steel pan deep enough. Roast, stirring occasionally for about 40 minutes.',
+      'Set cherries aside to cool then remove the pits. Transfer pits to a 1-quart stainless steel saucier or saucepan and place pitted cherries in a tall, narrow container or the bowl of a food processor; reserve roasting juices in the pan.',
+      'Add cream to the pits, bring to a simmer over medium heat, then cover and set aside.',
+      'Purée the cherries in a food processor or blender until smooth with the skins completely broken down. Return the purée to the reserved pan of roasted cherry juices and bring to a simmer on the stovetop over medium heat. Continue cooking, stirring frequently with until the fruit looks a bit thick and jammy , 5 to 10 minutes depending on the degree of roasting.',
+      'Strain the reserved cherry pit-infused cream into the reduction, then discard the pits. Whisk until smooth, then add lemon juice and salt.',
+      'Store mixture in fridge for 4 hours to cool.',
+      'Add mixture to ice cream maker and when the ice cream looks thick and light, shut off the machine and scrape ice cream into chilled container.',
+      'Enjoy immediately or cover with plastic pressed directly against surface of ice cream, then close lid and freeze for later',
+    ],
+    photoURL: 'https://i.imgur.com/6aSVWpP.jpeg',
+    published: true,
+  },
+] as Recipe[];

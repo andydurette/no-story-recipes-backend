@@ -11,9 +11,8 @@ import {
 } from '@nestjs/common';
 import { Recipe } from '@prisma/client';
 import { RecipeService } from './recipe.service';
-import { QueryRecipesDto } from './dto/queryRecipes.dto';
 import { RecipeDto } from './dto/recipe.dto';
-
+import { QueriedRecipesDto, QueryRecipesDto } from './dto/queryRecipes.dto';
 @SerializeOptions({
   excludePrefixes: ['published'],
 })
@@ -48,9 +47,18 @@ export class RecipeController {
   @Get('/queryRecipes')
   async queryRecipes(
     @Query()
-    { cuisineQuery, recipeQueryString }: QueryRecipesDto,
-  ): Promise<Recipe[]> {
-    return this.recipeService.queryRecipes(cuisineQuery, recipeQueryString);
+    {
+      cuisineQuery,
+      recipeQueryString,
+      recipeQuerySkip, // recipeQueryTake,
+    }: QueryRecipesDto,
+  ): Promise<QueriedRecipesDto> {
+    return this.recipeService.queryRecipes(
+      cuisineQuery,
+      recipeQueryString,
+      recipeQuerySkip,
+      // recipeQueryTake,
+    );
   }
 
   @Get('/latestRecipes')

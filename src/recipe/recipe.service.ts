@@ -2,9 +2,10 @@ import { Injectable, UseGuards } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { Recipe, Prisma } from '@prisma/client';
 import { recipeSelection } from './entities/recipe.selection';
-import { cuisineEnum } from './dto/recipe.dto';
 import { ApiKeyGuard } from 'src/guards/apiKey.guard';
 import { recipes } from '../../prisma/fixtures/recipe-fixture';
+import { Cuisine } from '@prisma/client';
+import { QueriedRecipesDto } from './dto/queryRecipes.dto';
 
 @Injectable()
 export class RecipeService {
@@ -28,21 +29,21 @@ export class RecipeService {
   }
 
   async getRecipes(): Promise<Recipe[]> {
-    return this.prisma.recipe.findMany({ take: 10 });
+    return this.prisma.recipe.findMany();
   }
 
   async queryRecipes(
-    cuisineQuery: cuisineEnum | undefined,
-    recipeQueryString: string | undefined,
-  ): Promise<Recipe[]> {
-    return this.prisma.recipe.findMany({
-      take: 10,
+    cuisineQuery?: Cuisine,
+    recipeQueryString?: string,
+    recipeQuerySkip?: number,
+    // recipeQueryTake?: number,
+  ): Promise<QueriedRecipesDto> {
+    const count = await this.prisma.recipe.count({
       where: {
         ...(cuisineQuery
           ? {
               cuisine: {
-                equals: cuisineQuery,
-                mode: 'insensitive',
+                has: cuisineQuery,
               },
             }
           : ''),
@@ -51,6 +52,38 @@ export class RecipeService {
           : ''),
       },
     });
+    // console.log('recipeQuerySkip', recipeQuerySkip);
+    // console.log('recipeQueryTake', recipeQueryTake);
+    const queryResults = await this.prisma.recipe.findMany({
+      // ...(recipeQuerySkip && { skip: Number(recipeQuerySkip) }),
+      // ...(recipeQueryTake && { take: Number(recipeQueryTake) }),
+      skip: Number(recipeQuerySkip) ? Number(recipeQuerySkip) : 0,
+      // take: Number(recipeQueryTake) ?? 12,
+      take: 12,
+      orderBy: [
+        {
+          id: 'asc',
+        },
+      ],
+      where: {
+        ...(cuisineQuery
+          ? {
+              cuisine: {
+                has: cuisineQuery,
+              },
+            }
+          : ''),
+        ...(recipeQueryString
+          ? { displayUrl: { contains: recipeQueryString, mode: 'insensitive' } }
+          : ''),
+      },
+    });
+
+    // console.log('queryResults', queryResults);
+    return {
+      recipes: queryResults,
+      count: count,
+    };
   }
 
   async latestRecipes(): Promise<Recipe[]> {

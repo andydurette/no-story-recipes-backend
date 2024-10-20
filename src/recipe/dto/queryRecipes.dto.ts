@@ -1,9 +1,18 @@
 import { IsOptional } from 'class-validator';
-import { cuisineEnum } from './recipe.dto';
+import { Cuisine, Recipe } from '@prisma/client';
 
 export class QueryRecipesDto {
   @IsOptional()
-  cuisineQuery: cuisineEnum;
+  cuisineQuery: Cuisine;
   @IsOptional()
   recipeQueryString: string;
+  @IsOptional()
+  recipeQuerySkip: number;
+  // @IsOptional()
+  // recipeQueryTake: number;
+}
+
+export class QueriedRecipesDto {
+  recipes: Recipe[];
+  count: number;
 }

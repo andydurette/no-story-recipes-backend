@@ -1,24 +1,56 @@
 import 'reflect-metadata';
-import { PrismaClient, Recipe } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
+import { PrismaPromise } from '@prisma/client/runtime/library';
 import { recipes } from './fixtures';
 
-const removeRecipeId = (recipe): Recipe => {
-  delete recipe.id;
-  return recipe;
+export const fixIncrementalIndexesForSetIdColumns = async (
+  prisma: PrismaClient,
+) => {
+  const tableNamesForIncrementalIndexes = await prisma.$queryRaw<
+    Array<{ tablename: string }>
+  >`SELECT c.relname AS tablename FROM pg_class c JOIN pg_attribute a ON a.attrelid = c.oid JOIN pg_type t ON a.atttypid = t.oid WHERE a.attname = 'id' AND t.typname = 'int4' AND c.relkind = 'r' AND pg_get_serial_sequence('"' || c.relname || '"', a.attname) IS NOT NULL`;
+
+  await prisma.$transaction([
+    ...tableNamesForIncrementalIndexes.reduce<Array<PrismaPromise<number>>>(
+      (acc, table) => {
+        acc.push(
+          prisma.$executeRawUnsafe(
+            `SELECT setval(pg_get_serial_sequence('"${table.tablename}"', 'id'), coalesce(max(id)+1, 1), false) FROM "${table.tablename}";`,
+          ),
+        );
+
+        return acc;
+      },
+      [],
+    ),
+  ]);
 };
 
 export async function reseed(prisma: PrismaClient) {
-  const seedRecipes = () =>
-    recipes.map(
+  const seedRecipes = async () => {
+    // Create recipes
+    // await recipes.map(async (recipe) => {
+    //   setTimeout(() => {
+    //     console.log('testingm timeout');
+    //   }, 1000);
+    //   return await prisma.recipe.create({
+    //     data: { ...recipe },
+    //   });
+    // });
+    // Enforce the order
+    await recipes.map(
       async (recipe) =>
         await prisma.recipe.upsert({
           where: { id: recipe.id },
-          update: { ...removeRecipeId(recipe) },
-          create: { ...removeRecipeId(recipe) },
+          update: { ...recipe },
+          create: { ...recipe },
         }),
     );
+    return;
+  };
 
   seedRecipes();
+  fixIncrementalIndexesForSetIdColumns(prisma);
 }
 
 if (require.main === module) {
