@@ -52,13 +52,8 @@ export class RecipeService {
           : ''),
       },
     });
-    // console.log('recipeQuerySkip', recipeQuerySkip);
-    // console.log('recipeQueryTake', recipeQueryTake);
     const queryResults = await this.prisma.recipe.findMany({
-      // ...(recipeQuerySkip && { skip: Number(recipeQuerySkip) }),
-      // ...(recipeQueryTake && { take: Number(recipeQueryTake) }),
       skip: Number(recipeQuerySkip) ? Number(recipeQuerySkip) : 0,
-      // take: Number(recipeQueryTake) ?? 12,
       take: 12,
       orderBy: [
         {
@@ -79,7 +74,6 @@ export class RecipeService {
       },
     });
 
-    // console.log('queryResults', queryResults);
     return {
       recipes: queryResults,
       count: count,

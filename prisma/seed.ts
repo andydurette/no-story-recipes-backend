@@ -29,14 +29,6 @@ export const fixIncrementalIndexesForSetIdColumns = async (
 export async function reseed(prisma: PrismaClient) {
   const seedRecipes = async () => {
     // Create recipes
-    // await recipes.map(async (recipe) => {
-    //   setTimeout(() => {
-    //     console.log('testingm timeout');
-    //   }, 1000);
-    //   return await prisma.recipe.create({
-    //     data: { ...recipe },
-    //   });
-    // });
     // Enforce the order
     await recipes.map(
       async (recipe) =>
