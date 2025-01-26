@@ -469,7 +469,7 @@ export const recipes = [
       `Whisk the flour, baking powder, baking soda, salt, cinnamon, and nutmeg together in a large bowl. Set aside.`,
       'Whisk the melted butter, oil, sugar, and eggs together until combined. Then whisk in the sour cream, milk, and vanilla extract. Pour wet ingredients into dry ingredients and mix together until completely no clumps exist. Avoid overmixing and once ready mix in the chocolate chips.',
       'Divide batter between each muffin cup, filling all the way to the top. Bake at 425°F for 5 minutes, then, keeping the muffins in the oven, reduce the oven temperature to 350°F (177°C) and continue to bake for 20 minutes until the tops are lightly golden brown and centers are set. Stick a toothpick in the center of a muffin to test for doneness. If it comes out clean, the muffins are done.',
-      'You may have some leftover bater you can use this to create as many extra as you like',
+      'You may have some leftover batter you can use this to create as many extra as you like',
       'Allow to cool for 10 minutes in pan before serving.',
     ],
     photoURL: 'https://i.imgur.com/Rx34sEZ.jpeg',
