@@ -442,7 +442,7 @@ export const recipes = [
     published: true,
   },
   {
-    id: 16,
+    id: 17,
     displayUrl: 'chocolate-chip-muffins',
     cuisine: ['EUROPEAN'],
     description:
