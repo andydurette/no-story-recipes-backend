@@ -30,15 +30,64 @@ export async function reseed(prisma: PrismaClient) {
   const seedRecipes = async () => {
     // Create recipes
     // Enforce the order
-    await recipes.map(
-      async (recipe) =>
-        await prisma.recipe.upsert({
-          where: { id: recipe.id },
-          update: { ...recipe },
-          create: { ...recipe },
-        }),
-    );
-    return;
+    recipes.map(async (recipe) => {
+      await prisma.recipe.upsert({
+        where: { id: recipe.id },
+        update: {
+          id: recipe.id,
+          displayUrl: recipe.displayUrl,
+          name: recipe.name,
+          cuisine: recipe.cuisine,
+          description: recipe.description,
+          photoURL: recipe.photoURL,
+          directionsAndIngredientsList: {
+            connectOrCreate: recipe.directionsAndIngredients.map(
+              (directionAndIngredient) => ({
+                where: {
+                  recipeId_for: {
+                    recipeId: recipe.id,
+                    for: directionAndIngredient.for,
+                  },
+                },
+                create: {
+                  for: directionAndIngredient.for,
+                  ingredientList: directionAndIngredient.ingredientList,
+                  directionList: directionAndIngredient.directionList,
+                },
+              }),
+            ),
+          },
+          published: recipe.published,
+        },
+        create: {
+          displayUrl: recipe.displayUrl,
+          name: recipe.name,
+          cuisine: recipe.cuisine,
+          description: recipe.description,
+          photoURL: recipe.photoURL,
+          directionsAndIngredientsList: {
+            connectOrCreate: recipe.directionsAndIngredients.map(
+              (directionAndIngredient) => ({
+                where: {
+                  recipeId_for: {
+                    recipeId: recipe.id,
+                    for: directionAndIngredient.for,
+                  },
+                },
+                create: {
+                  for: directionAndIngredient.for,
+                  ingredientList: directionAndIngredient.ingredientList,
+                  directionList: directionAndIngredient.directionList,
+                },
+              }),
+            ),
+          },
+          published: recipe.published,
+        },
+      });
+
+      return;
+    });
   };
 
   seedRecipes();

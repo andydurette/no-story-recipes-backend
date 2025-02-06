@@ -12,15 +12,25 @@ datasource db {
 }
 
 model Recipe {
-  id          Int       @id @default(autoincrement())
-  displayUrl  String    @unique
-  cuisine     Cuisine[]
-  description String
-  directions  String[]
-  name        String
-  ingredients String[]
-  photoURL    String
-  published   Boolean?  @default(true)
+  id                           Int                            @id @default(autoincrement())
+  displayUrl                   String                         @unique
+  name                         String
+  cuisine                      Cuisine[]
+  description                  String
+  directionsAndIngredientsList DirectionsAndIngredientsList[]
+  photoURL                     String
+  published                    Boolean?                       @default(true)
+}
+
+model DirectionsAndIngredientsList {
+  id             Int      @id @default(autoincrement())
+  for            String
+  ingredientList String[]
+  directionList  String[]
+  recipeId       Int
+  Recipe         Recipe   @relation(fields: [recipeId], references: [id])
+
+  @@unique([recipeId, for])
 }
 
 enum Cuisine {

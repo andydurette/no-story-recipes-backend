@@ -5,9 +5,8 @@ export const recipeSelection = Prisma.validator<Prisma.RecipeSelect>()({
   displayUrl: true,
   cuisine: true,
   description: true,
-  directions: true,
+  directionsAndIngredientsList: true,
   name: true,
-  ingredients: true,
   photoURL: true,
   published: true,
 });
@@ -17,9 +16,8 @@ export const recipeResponseSelection = Prisma.validator<Prisma.RecipeSelect>()({
   displayUrl: true,
   cuisine: true,
   description: true,
-  directions: true,
+  directionsAndIngredientsList: true,
   name: true,
-  ingredients: true,
   photoURL: true,
   published: false,
 });
