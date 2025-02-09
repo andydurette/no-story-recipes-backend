@@ -1,11 +1,16 @@
 import { Exclude } from 'class-transformer';
 
+export class DirectionsAndIngredientListDto {
+  for: string;
+  ingredientList: string[];
+  directionList: string[];
+}
+
 export class RecipeResponseDto {
   displayUrl: string;
   cuisine: string;
   description: string;
-  directions: string[];
-  ingredients: string[];
+  directionsAndIngredients: DirectionsAndIngredientListDto;
   name: string;
   photoURL: string;
   @Exclude()

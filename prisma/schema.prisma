@@ -20,17 +20,20 @@ model Recipe {
   directionsAndIngredientsList DirectionsAndIngredientsList[]
   photoURL                     String
   published                    Boolean?                       @default(true)
+  relatedRecipes               Recipe[]                       @relation("RelatedRecipes")
+  relatedTo                    Recipe[]                       @relation("RelatedRecipes")
 }
 
 model DirectionsAndIngredientsList {
   id             Int      @id @default(autoincrement())
+  forDataSlug    String
   for            String
   ingredientList String[]
   directionList  String[]
   recipeId       Int
   Recipe         Recipe   @relation(fields: [recipeId], references: [id])
 
-  @@unique([recipeId, for])
+  @@unique([recipeId, forDataSlug])
 }
 
 enum Cuisine {
@@ -39,4 +42,25 @@ enum Cuisine {
   EUROPEAN
   ASIAN
   MIDDLE_EASTERN
+}
+
+enum Category {
+  PIZZA
+  QUICK
+  DESSERT
+  SIDE_DISH
+  SANDWHICH
+  MEAT
+  PASTA
+  SEAFOOD
+  SOUP
+  VEGETARIAN
+  HEALTHY
+  NOODLES
+}
+
+enum Difficulty {
+  BEGINNER
+  EXPERIENCED
+  DIFFICULT
 }

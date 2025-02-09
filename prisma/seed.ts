@@ -1,97 +1,92 @@
 import 'reflect-metadata';
 import { PrismaClient } from '@prisma/client';
-import { PrismaPromise } from '@prisma/client/runtime/library';
 import { recipes } from './fixtures';
 
-export const fixIncrementalIndexesForSetIdColumns = async (
-  prisma: PrismaClient,
-) => {
-  const tableNamesForIncrementalIndexes = await prisma.$queryRaw<
-    Array<{ tablename: string }>
-  >`SELECT c.relname AS tablename FROM pg_class c JOIN pg_attribute a ON a.attrelid = c.oid JOIN pg_type t ON a.atttypid = t.oid WHERE a.attname = 'id' AND t.typname = 'int4' AND c.relkind = 'r' AND pg_get_serial_sequence('"' || c.relname || '"', a.attname) IS NOT NULL`;
-
-  await prisma.$transaction([
-    ...tableNamesForIncrementalIndexes.reduce<Array<PrismaPromise<number>>>(
-      (acc, table) => {
-        acc.push(
-          prisma.$executeRawUnsafe(
-            `SELECT setval(pg_get_serial_sequence('"${table.tablename}"', 'id'), coalesce(max(id)+1, 1), false) FROM "${table.tablename}";`,
-          ),
-        );
-
-        return acc;
-      },
-      [],
-    ),
-  ]);
-};
-
 export async function reseed(prisma: PrismaClient) {
-  const seedRecipes = async () => {
-    // Create recipes
-    // Enforce the order
-    recipes.map(async (recipe) => {
-      await prisma.recipe.upsert({
-        where: { id: recipe.id },
-        update: {
-          id: recipe.id,
-          displayUrl: recipe.displayUrl,
-          name: recipe.name,
-          cuisine: recipe.cuisine,
-          description: recipe.description,
-          photoURL: recipe.photoURL,
-          directionsAndIngredientsList: {
-            connectOrCreate: recipe.directionsAndIngredients.map(
-              (directionAndIngredient) => ({
-                where: {
-                  recipeId_for: {
-                    recipeId: recipe.id,
-                    for: directionAndIngredient.for,
-                  },
-                },
-                create: {
-                  for: directionAndIngredient.for,
-                  ingredientList: directionAndIngredient.ingredientList,
-                  directionList: directionAndIngredient.directionList,
-                },
-              }),
-            ),
+  const updateRecipesRelated = async () => {
+    await Promise.all(
+      recipes.map(async (recipe) => {
+        await prisma.recipe.update({
+          where: { id: recipe.id },
+          data: {
+            relatedRecipes: {
+              connect: recipe.relatedRecipes.map((relatedId) => ({
+                id: relatedId,
+              })),
+            },
           },
-          published: recipe.published,
-        },
-        create: {
-          displayUrl: recipe.displayUrl,
-          name: recipe.name,
-          cuisine: recipe.cuisine,
-          description: recipe.description,
-          photoURL: recipe.photoURL,
-          directionsAndIngredientsList: {
-            connectOrCreate: recipe.directionsAndIngredients.map(
-              (directionAndIngredient) => ({
-                where: {
-                  recipeId_for: {
-                    recipeId: recipe.id,
-                    for: directionAndIngredient.for,
-                  },
-                },
-                create: {
-                  for: directionAndIngredient.for,
-                  ingredientList: directionAndIngredient.ingredientList,
-                  directionList: directionAndIngredient.directionList,
-                },
-              }),
-            ),
-          },
-          published: recipe.published,
-        },
-      });
+        });
+      }),
+    );
+  };
 
-      return;
-    });
+  const seedRecipes = async () => {
+    await Promise.all(
+      recipes.map(async (recipe) => {
+        await prisma.recipe.upsert({
+          where: { id: recipe.id },
+          update: {
+            id: recipe.id,
+            displayUrl: recipe.displayUrl,
+            name: recipe.name,
+            cuisine: recipe.cuisine,
+            description: recipe.description,
+            photoURL: recipe.photoURL,
+            directionsAndIngredientsList: {
+              connectOrCreate: recipe.directionsAndIngredients.map(
+                (directionAndIngredient) => ({
+                  where: {
+                    recipeId_forDataSlug: {
+                      recipeId: recipe.id,
+                      forDataSlug: directionAndIngredient.forDataSlug,
+                    },
+                  },
+                  create: {
+                    forDataSlug: directionAndIngredient.forDataSlug,
+                    for: directionAndIngredient.for,
+                    ingredientList: directionAndIngredient.ingredientList,
+                    directionList: directionAndIngredient.directionList,
+                  },
+                }),
+              ),
+            },
+            published: recipe.published,
+          },
+          create: {
+            id: recipe.id,
+            displayUrl: recipe.displayUrl,
+            name: recipe.name,
+            cuisine: recipe.cuisine,
+            description: recipe.description,
+            directionsAndIngredientsList: {
+              connectOrCreate: recipe.directionsAndIngredients.map(
+                (directionAndIngredient) => ({
+                  where: {
+                    recipeId_forDataSlug: {
+                      recipeId: recipe.id,
+                      forDataSlug: directionAndIngredient.forDataSlug,
+                    },
+                  },
+                  create: {
+                    forDataSlug: directionAndIngredient.forDataSlug,
+                    for: directionAndIngredient.for,
+                    ingredientList: directionAndIngredient.ingredientList,
+                    directionList: directionAndIngredient.directionList,
+                  },
+                }),
+              ),
+            },
+            photoURL: recipe.photoURL,
+            published: recipe.published,
+          },
+        });
+      }),
+    );
+
+    await updateRecipesRelated();
   };
 
   seedRecipes();
-  fixIncrementalIndexesForSetIdColumns(prisma);
 }
 
 if (require.main === module) {
