@@ -94,14 +94,14 @@ export const recipes = [
         for: 'Guacamole',
         ingredientList: [
           '1 avocados',
-          '1 tablespoons finely chopped fresh cilantro',
-          '1 jalapeno pepper finely diced',
+          '1 tablespoons cilantro',
+          '1 jalapeno pepper',
           '1 squeeze of lime',
         ],
         directionList: [
-          'Sear steak and cook to desired level, then cut into small chunks.',
-          `Combine other listed ingredients in an xl tortilla and wrap.`,
-          'Cook burrito on each side on a low-med hot pan until browned on each side.',
+          'Halve and remove avocado seed, then move contents of avocado with a spoon to a bowl or food processor',
+          `Chop up jalapeno and and cilantro and add to the mixture.`,
+          `Give a squeeze of lime into the mixture then mix together`,
         ],
       },
       {
@@ -155,14 +155,14 @@ export const recipes = [
         for: 'Guacamole',
         ingredientList: [
           '1 avocados',
-          '1 tablespoon finely chopped fresh cilantro',
-          '1 jalapeno pepper finely diced',
+          '1 tablespoons cilantro',
+          '1 jalapeno pepper',
           '1 squeeze of lime',
         ],
         directionList: [
-          'Sear steak and cook to desired level, then cut into small chunks.',
-          `Combine other listed ingredients in an xl tortilla and wrap.`,
-          'Cook burrito on each side on a low-med hot pan until browned on each side.',
+          'Halve and remove avocado seed, then move contents of avocado with a spoon to a bowl or food processor',
+          `Chop up jalapeno and and cilantro and add to the mixture.`,
+          `Give a squeeze of lime into the mixture then mix together`,
         ],
       },
       {
