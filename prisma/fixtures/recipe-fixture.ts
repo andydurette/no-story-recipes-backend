@@ -10,7 +10,7 @@ export const recipes = [
       {
         forDataSlug: 'hollandias-sauce',
         for: 'Hollandiase sauce',
-        ingredientList: ['2 Egg yolks', '1 Cup of vinegar', '1 Cup butter'],
+        ingredientList: ['2 Egg yolks', '1 Cup of vinegar', '½ Cup butter'],
         directionList: [
           `Put 1 cup of vinegar in a small pot and reduce until about half, set aside.`,
           `Crack open two eggs and seperate the whites from the yolks, keep the yolks in a bowl and whisk them together for later making the hollandaise.`,
@@ -711,7 +711,7 @@ export const recipes = [
           '7 Garlic cloves',
           '3 Bacon slices, cubbed',
           '1/4 cup (60 ml) vegetable oil',
-          '1/2 cup (75 g) all-purpose flour',
+          '½ cup (75 g) all-purpose flour',
           '2.5 Tbsp (8 g) Texas Style Chili powder',
           '1 Tbsp (5 g) Smoked Paprika',
           '1.5 tsp (3 g) Ground Cumin',
