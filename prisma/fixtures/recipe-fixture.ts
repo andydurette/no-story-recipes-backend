@@ -880,7 +880,7 @@ export const recipes = [
       },
     ],
     photoURL: 'https://i.imgur.com/ua6cASd.jpeg',
-    relatedRecipes: [5, 16],
+    relatedRecipes: [],
     published: true,
   },
 ] as any[];
